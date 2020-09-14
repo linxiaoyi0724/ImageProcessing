@@ -11,15 +11,19 @@ public:
 	ImageProcess(QWidget *parent = Q_NULLPTR);
 	~ImageProcess();
 
-	void HelloWorld();
 
 private:
 	Ui::ImageProcessClass ui;
 
-
-signals:
-	void ISignal(int a, float b);
+	QDockWidget *dock_Image;
+	QString currentPath;
+	QLabel *imageLabel;
+	void InitImage();
+	void Menu_File();
 
 private slots:
-	void ISlot();
+	void File_new();
+	void File_open();
+	void File_save();
+	void File_saveas();
 };

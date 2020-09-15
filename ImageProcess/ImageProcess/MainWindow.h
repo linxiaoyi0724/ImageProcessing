@@ -1,6 +1,9 @@
 #pragma once
 
 #include <QtWidgets/QMainWindow>
+#include <QtGui>
+#include <QtWidgets>
+#include <qmainwindow.h>
 #include "ui_ImageProcess.h"
 
 class ImageProcess : public QMainWindow
@@ -16,8 +19,17 @@ private:
 	Ui::ImageProcessClass ui;
 
 	QDockWidget *dock_Image;
+	QDockWidget *dock_Tool;
+	QDockWidget *dock_Geom;
+	QDockWidget *dock_Gray;
+	QDockWidget *dock_Enhance;
+	QDockWidget *dock_Morp;
+	QDockWidget *dock_Color;
+	QDockWidget *dock_Prop;
+	QDockWidget* dock_Output;
+
 	QString currentPath;
-	QLabel *imageLabel;
+	QLabel *imgLabel;
 	void InitImage();
 	void Menu_File();
 

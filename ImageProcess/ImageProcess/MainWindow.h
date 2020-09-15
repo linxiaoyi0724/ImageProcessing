@@ -18,6 +18,8 @@ public:
 private:
 	Ui::ImageProcessClass ui;
 
+	QScrollArea* scrollArea = new QScrollArea(this);
+
 	QDockWidget *dock_Image;
 	QDockWidget *dock_Tool;
 	QDockWidget *dock_Geom;
@@ -38,4 +40,7 @@ private slots:
 	void File_open();
 	void File_save();
 	void File_saveas();
+
+	void FullSize();
+	void AutoSize();
 };

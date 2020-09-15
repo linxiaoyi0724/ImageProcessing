@@ -116,6 +116,15 @@ void ImageProcess::Menu_File()
 	act_file_save->setStatusTip(tr("保存图像"));
 	act_file_saveas->setStatusTip(tr("图像另存为"));
 	act_file_close->setStatusTip(tr("关闭软件"));
+
+	QPushButton *button_full = new QPushButton(tr("铺满窗口"));
+	QPushButton *button_auto = new QPushButton(tr("自适应窗口"));
+
+	connect(button_full, SIGNAL(clicked()), this, SLOT(FullSize()));
+	connect(button_auto, SIGNAL(clicked()), this, SLOT(AutoSize()));
+
+	ui.mainToolBar->addWidget(button_full);
+	ui.mainToolBar->addWidget(button_auto);
 }
 
 void ImageProcess::InitImage()
@@ -172,16 +181,49 @@ void ImageProcess::InitImage()
 	imgLabel->resize(image.width(), image.height());
 
 
-	QScrollArea* scrollArea = new QScrollArea(this);
+	//QScrollArea* scrollArea = new QScrollArea(this);
 	scrollArea->setBackgroundRole(QPalette::Dark);
 	scrollArea->setAlignment(Qt::AlignCenter);
 	scrollArea->setWidget(imgLabel);
 	dock_Image->setWidget(scrollArea);
+
+
+	QLabel *label = new QLabel(tr("label"), dock_Geom);
+	QPushButton *button = new QPushButton(tr("按钮"), dock_Geom);
+	connect(button, SIGNAL(clicked()), this, SLOT(slot_button));
+
+	QLabel *labelMove = new QLabel(tr("labelMove"),dock_Geom);
+	QMovie *pMovie = new QMovie("../Imgae/aaa.gif");
+	labelMove->setMovie(pMovie);
+	labelMove->setFixedSize(135, 200);
+	labelMove->setScaledContents(true);
+	pMovie->start();
+
+	QLineEdit *lineEdit = new QLineEdit(tr("Line"), dock_Geom);
+	lineEdit->setReadOnly(true);
+
+	QTextEdit *textEdit = new QTextEdit(tr("Text"), dock_Geom);
+	textEdit->textCursor().movePosition(QTextCursor::End);
+	textEdit->setWordWrapMode(QTextOption::NoWrap);
+	textEdit->setReadOnly(true);
+	textEdit->append("第一行");
+	textEdit->append("第二行");
+	textEdit->append("第二行");
+	textEdit->append("第二行");
+	textEdit->append("第二行");
+	textEdit->append("第二行");
+
+	labelMove->move(5, 5);
+	label->move(50, 50);
+	button->move(200, 50);
+	lineEdit->move(50, 100);
+	textEdit->move(50, 150);
+	textEdit->resize(200, 100);
 }
 
 void ImageProcess::File_new()
 {
-	QImage image = QImage(500, 500, QImage::Format_RGB32);
+	QImage image = QImage(500, 500, QImage::Format_RGB32); 
 	image.fill(qRgb(255, 255, 255));
 	imgLabel->setPixmap(QPixmap::fromImage(image));
 	imgLabel->resize(image.width(), image.height());
@@ -229,4 +271,28 @@ void ImageProcess::File_saveas()
 		img.save(path);
 		currentPath = path;
 	}
+}
+
+void ImageProcess::FullSize()
+{
+	QImage img = imgLabel->pixmap()->toImage().scaled(scrollArea->width() - 2, scrollArea->height() - 2, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+	imgLabel->setPixmap(QPixmap::fromImage(img));
+	imgLabel->resize(img.width(), img.height());
+}
+
+void ImageProcess::AutoSize()
+{
+	QImage img;
+	double imgRatio = 1.0 * imgLabel->pixmap()->toImage().width() / imgLabel->pixmap()->toImage().height();
+	double winRatio = 1.0 * (scrollArea->width() - 2) / (scrollArea->height() - 2);
+	if (imgRatio > winRatio)
+	{
+		img = imgLabel->pixmap()->toImage().scaled((scrollArea->width() - 2), (scrollArea->width() - 2) / imgRatio, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+	}
+	else
+	{
+		img = imgLabel->pixmap()->toImage().scaled((scrollArea->height() - 2)*imgRatio, (scrollArea->height() - 2), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+	}
+	imgLabel->setPixmap(QPixmap::fromImage(img));
+	imgLabel->resize(img.width(), img.height());
 }

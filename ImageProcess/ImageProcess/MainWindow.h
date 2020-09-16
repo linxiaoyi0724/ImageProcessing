@@ -34,6 +34,7 @@ private:
 	QLabel *imgLabel;
 	void InitImage();
 	void Menu_File();
+	
 
 private slots:
 	void File_new();
@@ -41,6 +42,7 @@ private slots:
 	void File_save();
 	void File_saveas();
 
+	void showWin();
 	void FullSize();
 	void AutoSize();
 };

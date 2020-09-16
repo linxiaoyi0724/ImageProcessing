@@ -2,6 +2,7 @@
 #include <QtGui>
 #include <QtWidgets>
 #include "MainWindow.h"
+#include "header/CustomWindow.h"
 #pragma execution_character_set("utf-8")
 
 ImageProcess::ImageProcess(QWidget *parent)
@@ -108,6 +109,10 @@ void ImageProcess::Menu_File()
 	ui.mainToolBar->addAction(act_file_new);
 	ui.mainToolBar->addAction(act_file_open);
 	ui.mainToolBar->addAction(act_file_save);
+
+	QPushButton *button_about = new QPushButton(tr("关于"));
+	connect(button_about, SIGNAL(clicked()), this, SLOT(showWin()));
+	ui.mainToolBar->addWidget(button_about);
 
 
 	//任务栏
@@ -261,6 +266,89 @@ void ImageProcess::InitImage()
 
 	radio1->move(50, 350);
 	radio2->move(150, 350);
+
+
+
+	QPushButton *button_H1 = new QPushButton(tr("QHBoxLayout第一个按钮"));
+	QPushButton *button_H2 = new QPushButton(tr("QHBoxLayout第二个按钮")); 
+	QPushButton *button_H3 = new QPushButton(tr("QHBoxLayout第三个按钮"));
+
+	QHBoxLayout *hlayout = new QHBoxLayout();
+	hlayout->addWidget(button_H1);
+	hlayout->addWidget(button_H2);
+	hlayout->addWidget(button_H3);
+
+	QPushButton *button_V1 = new QPushButton(tr("QVBoxLayout第一个按钮"));
+	QPushButton *button_V2 = new QPushButton(tr("QVBoxLayout第二个按钮"));
+	QPushButton *button_V3 = new QPushButton(tr("QVBoxLayout第三个按钮"));
+
+	QVBoxLayout *vlayout = new QVBoxLayout();
+	vlayout->addWidget(button_V1);
+	vlayout->addWidget(button_V2);
+	vlayout->addWidget(button_V3);
+
+	QPushButton *button_G1 = new QPushButton(tr("QGridLayout第一个按钮"));
+	QPushButton *button_G2 = new QPushButton(tr("QGridLayout第二个按钮"));
+	QPushButton *button_G3 = new QPushButton(tr("QGridLayout第三个按钮"));
+	QPushButton *button_G4 = new QPushButton(tr("QGridLayout第四个按钮"));
+
+	QGridLayout *glayout = new QGridLayout();
+	glayout->addWidget(button_G1, 0, 0);
+	glayout->addWidget(button_G2, 1, 1);
+	glayout->addWidget(button_G3, 2, 0);
+	glayout->addWidget(button_G4, 2, 1);
+
+	QLineEdit *line_F1 = new QLineEdit(tr("第一项"));
+	QLineEdit *line_F2 = new QLineEdit(tr("第二项"));
+	QLineEdit *line_F3 = new QLineEdit(tr("第三项"));
+	QLineEdit *line_F4 = new QLineEdit(tr("第四项"));
+
+	QFormLayout *flayout = new QFormLayout();
+	flayout->addRow(tr("1"), line_F1);
+	flayout->addRow(tr("2"), line_F2);
+	flayout->addRow(tr("3"), line_F3);
+	flayout->addRow(tr("4"), line_F4);
+	flayout->setSpacing(20);
+	flayout->setMargin(20);
+
+	QVBoxLayout *playout = new QVBoxLayout();
+	playout->addLayout(hlayout);
+	playout->addLayout(vlayout);
+	playout->addStretch();
+	playout->addLayout(glayout);
+	playout->addLayout(flayout);
+
+	QWidget *pWidget = new QWidget(dock_Morp);
+	pWidget->setLayout(playout);
+	dock_Morp->setWidget(pWidget);
+}
+
+void ImageProcess::showWin()
+{
+	CustomWindow *helpWin = new CustomWindow();
+	helpWin->resize(600, 400);
+
+	QLabel *label_about = new QLabel(helpWin);
+	label_about->setText(tr("图像处理软件自编1.0"));
+
+	QLabel *label_right = new QLabel(helpWin);
+	label_right->setText(tr("Copyright(C) 2020 上海 51World"));
+
+	QLabel *label_author = new QLabel(helpWin);
+	label_author->setText(tr("作者：小轶 https://blog.csdn.net/Lin_xiaoyi/article/details/78214874"));
+
+	QPushButton *button_ok = new QPushButton(helpWin);
+	button_ok->setText(tr("确定"));
+	connect(button_ok, SIGNAL(clicked()), helpWin, SLOT(close()));
+
+	label_about->move(100, 100);
+	label_right->move(100, 180);
+	label_author->move(100, 260);
+	button_ok->move(400, 180);
+	
+	helpWin->exec();
+
+
 }
 
 void ImageProcess::File_new()

@@ -190,6 +190,7 @@ void ImageProcess::InitImage()
 
 	QLabel *label = new QLabel(tr("label"), dock_Geom);
 	QPushButton *button = new QPushButton(tr("按钮"), dock_Geom);
+	//button->setFlat(true);
 	connect(button, SIGNAL(clicked()), this, SLOT(slot_button));
 
 	QLabel *labelMove = new QLabel(tr("labelMove"),dock_Geom);
@@ -201,6 +202,7 @@ void ImageProcess::InitImage()
 
 	QLineEdit *lineEdit = new QLineEdit(tr("Line"), dock_Geom);
 	lineEdit->setReadOnly(true);
+	//lineEdit->selectAll();
 
 	QTextEdit *textEdit = new QTextEdit(tr("Text"), dock_Geom);
 	textEdit->textCursor().movePosition(QTextCursor::End);
@@ -219,6 +221,46 @@ void ImageProcess::InitImage()
 	lineEdit->move(50, 100);
 	textEdit->move(50, 150);
 	textEdit->resize(200, 100);
+
+
+
+	QSlider *slider = new QSlider(Qt::Horizontal, dock_Gray);
+	slider->setRange(0, 100);
+	slider->setValue(1);
+	slider->move(60, 60);
+
+	QSpinBox *spinBox = new QSpinBox(dock_Enhance);
+	spinBox->setRange(0, 100);
+	spinBox->setValue(1);
+	spinBox->move(70, 70);
+
+	connect(spinBox, SIGNAL(valueChanged(int)), slider, SLOT(setValue(int)));
+	connect(slider, SIGNAL(valueChanged(int)), spinBox, SLOT(setValue(int)));
+	connect(spinBox, SIGNAL(valueChanged(int)), this, SLOT(slot_spinbox()));
+
+
+	QComboBox *combo = new QComboBox(dock_Enhance);
+	combo->addItem(tr("第一个选项"));
+	combo->addItem(tr("第二个选项"));
+	combo->move(130, 130);
+	connect(combo, SIGNAL(currentIndexChanged(int)), this, SLOT(slot_combo()));
+
+
+	QRadioButton *radio1 = new QRadioButton(tr("选项1"), dock_Color);
+	QRadioButton *radio2 = new QRadioButton(tr("选项2"), dock_Color);
+
+	radio1->setChecked(true);
+
+	connect(radio1, SIGNAL(clicked()), this, SLOT(slot_radio1()));
+	connect(radio2, SIGNAL(clicked()), this, SLOT(slot_radio2()));
+
+	QButtonGroup *radioGroup = new QButtonGroup();
+	radioGroup->setExclusive(true);
+	radioGroup->addButton(radio1);
+	radioGroup->addButton(radio2);
+
+	radio1->move(50, 350);
+	radio2->move(150, 350);
 }
 
 void ImageProcess::File_new()

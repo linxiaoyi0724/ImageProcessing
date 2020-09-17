@@ -83,6 +83,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="source\CustomWindow.cpp" />
+    <ClCompile Include="source\PaintWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MainWindow.h" />
@@ -95,6 +96,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="header\CustomWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="header\PaintWidget.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

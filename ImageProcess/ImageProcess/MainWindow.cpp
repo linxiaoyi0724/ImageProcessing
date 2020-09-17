@@ -13,6 +13,7 @@ ImageProcess::ImageProcess(QWidget *parent)
 	Menu_File();
 	InitImage();
 
+	ToolWin();
 
 
 
@@ -110,11 +111,6 @@ void ImageProcess::Menu_File()
 	ui.mainToolBar->addAction(act_file_open);
 	ui.mainToolBar->addAction(act_file_save);
 
-	QPushButton *button_about = new QPushButton(tr("关于"));
-	connect(button_about, SIGNAL(clicked()), this, SLOT(showWin()));
-	ui.mainToolBar->addWidget(button_about);
-
-
 	//任务栏
 	act_file_new->setStatusTip(tr("新建图像"));
 	act_file_open->setStatusTip(tr("打开图像"));
@@ -130,6 +126,10 @@ void ImageProcess::Menu_File()
 
 	ui.mainToolBar->addWidget(button_full);
 	ui.mainToolBar->addWidget(button_auto);
+
+	QPushButton *button_about = new QPushButton(tr("关于"));
+	connect(button_about, SIGNAL(clicked()), this, SLOT(showWin()));
+	ui.mainToolBar->addWidget(button_about);
 }
 
 void ImageProcess::InitImage()
@@ -177,12 +177,13 @@ void ImageProcess::InitImage()
 	dock_Geom->raise();
 
 
-	imgLabel = new QLabel(dock_Image);
+	imgLabel = new PaintWidget(dock_Image);
 	imgLabel->setScaledContents(true);
 
 	QImage image = QImage(500, 500, QImage::Format_RGB32);
 	image.fill(qRgb(255, 255, 255));
-	imgLabel->setPixmap(QPixmap::fromImage(image));
+	//imgLabel->setPixmap(QPixmap::fromImage(image));
+	imgLabel->setImage(image);
 	imgLabel->resize(image.width(), image.height());
 
 
@@ -321,6 +322,7 @@ void ImageProcess::InitImage()
 	QWidget *pWidget = new QWidget(dock_Morp);
 	pWidget->setLayout(playout);
 	dock_Morp->setWidget(pWidget);
+
 }
 
 void ImageProcess::showWin()
@@ -348,6 +350,85 @@ void ImageProcess::showWin()
 	
 	helpWin->exec();
 
+
+}
+
+void ImageProcess::ToolWin()
+{
+	dock_Tool->setFeatures(QDockWidget::DockWidgetClosable);
+
+	QPushButton *button_pen = new QPushButton(QIcon("../Imgae/icon/ImageProcess.png"), tr(""), this);
+	button_pen->setFixedSize(35, 35);
+	button_pen->setToolTip(tr("钢笔"));
+	button_pen->setObjectName("customButton");
+
+	QPushButton *button_line = new QPushButton(QIcon("../Imgae/icon/ImageProcess.png"), tr(""), this);
+	button_line->setFixedSize(35, 35);
+	button_line->setToolTip(tr("线条"));
+	button_line->setObjectName("customButton");
+
+	QPushButton *button_circle = new QPushButton(QIcon("../Imgae/icon/ImageProcess.png"), tr(""), this);
+	button_circle->setFixedSize(35, 35);
+	button_circle->setToolTip(tr("圆形"));
+	button_circle->setObjectName("customButton");
+
+	QPushButton *button_ellipse = new QPushButton(QIcon("../Imgae/icon/ImageProcess.png"), tr(""), this);
+	button_ellipse->setFixedSize(35, 35);
+	button_ellipse->setToolTip(tr("椭圆"));
+	button_ellipse->setObjectName("customButton");
+
+	QPushButton *button_triangle = new QPushButton(QIcon("../Imgae/icon/ImageProcess.png"), tr(""), this);
+	button_triangle->setFixedSize(35, 35);
+	button_triangle->setToolTip(tr("三角形"));
+	button_triangle->setObjectName("customButton");
+
+	QPushButton *button_rhombus = new QPushButton(QIcon("../Imgae/icon/ImageProcess.png"), tr(""), this);
+	button_rhombus->setFixedSize(35, 35);
+	button_rhombus->setToolTip(tr("菱形"));
+	button_rhombus->setObjectName("customButton");
+
+	QPushButton *button_rect = new QPushButton(QIcon("../Imgae/icon/ImageProcess.png"), tr(""), this);
+	button_rect->setFixedSize(35, 35);
+	button_rect->setToolTip(tr("长方形"));
+	button_rect->setObjectName("customButton");
+
+	QPushButton *button_square = new QPushButton(QIcon("../Imgae/icon/ImageProcess.png"), tr(""), this);
+	button_square->setFixedSize(35, 35);
+	button_square->setToolTip(tr("正方形"));
+	button_square->setObjectName("customButton");
+
+	QPushButton *button_hexagon = new QPushButton(QIcon("../Imgae/icon/ImageProcess.png"), tr(""), this);
+	button_hexagon->setFixedSize(35, 35);
+	button_hexagon->setToolTip(tr("六边形"));
+	button_hexagon->setObjectName("customButton");
+
+	QGridLayout *toolLayout = new QGridLayout();
+	toolLayout->setAlignment(Qt::AlignTop);
+	toolLayout->addWidget(button_pen, 0, 0);
+	toolLayout->addWidget(button_line, 0, 1);
+	toolLayout->addWidget(button_ellipse, 1, 0);
+	toolLayout->addWidget(button_circle, 1, 1);
+	toolLayout->addWidget(button_triangle, 2, 0);
+	toolLayout->addWidget(button_rhombus, 2, 1);
+	toolLayout->addWidget(button_rect, 3, 0);
+	toolLayout->addWidget(button_square, 3, 1);
+	toolLayout->addWidget(button_hexagon, 4, 0);
+
+	QWidget *toolWidget = new QWidget(dock_Tool);
+	toolWidget->setLayout(toolLayout);
+	dock_Tool->setWidget(toolWidget);
+
+	toolButtonGroup = new QButtonGroup();
+	toolButtonGroup->addButton(button_pen, 1);
+	toolButtonGroup->addButton(button_line, 2);
+	toolButtonGroup->addButton(button_ellipse, 3);
+	toolButtonGroup->addButton(button_circle, 4);
+	toolButtonGroup->addButton(button_triangle, 5);
+	toolButtonGroup->addButton(button_rhombus, 6);
+	toolButtonGroup->addButton(button_rect, 7);
+	toolButtonGroup->addButton(button_square,8);
+	toolButtonGroup->addButton(button_hexagon, 9);
+	connect(toolButtonGroup, SIGNAL(buttonClicked(int)), this, SLOT(toolButtonClicked(int)));
 
 }
 
@@ -425,4 +506,69 @@ void ImageProcess::AutoSize()
 	}
 	imgLabel->setPixmap(QPixmap::fromImage(img));
 	imgLabel->resize(img.width(), img.height());
+}
+
+void ImageProcess::toolButtonClicked(int id)
+{
+	QList<QAbstractButton*> buttons = toolButtonGroup->buttons();
+	foreach(QAbstractButton *button, buttons)
+	{
+		if (toolButtonGroup->button(id) != button)
+			button->setChecked(false);
+		else if (drawType == id)
+		{
+			drawType = 0;
+		}
+		else
+		{
+			drawType = id;
+		}
+	}
+
+	switch (drawType)
+	{
+	case 0:
+		//QMessageBox::information(this, tr("绘制"), tr("退出绘制模式"));
+		imgLabel->setShape(PaintWidget::Null);
+		break;
+	
+	case 1:
+		//QMessageBox::information(this, tr("绘制"), tr("钢笔"));
+		imgLabel->setShape(PaintWidget::Pen);
+		break;
+	case 2:
+		//QMessageBox::information(this, tr("绘制"), tr("线条"));
+		imgLabel->setShape(PaintWidget::Line);
+		break;
+	case 3:
+		//QMessageBox::information(this, tr("绘制"), tr("椭圆形！")); 
+		imgLabel->setShape(PaintWidget::Ellipse);
+		break;
+	case 4:
+		//QMessageBox::information(this, tr("绘制"), tr("圆形！")); 
+		imgLabel->setShape(PaintWidget::Circle);
+		break;
+	case 5:
+		//QMessageBox::information(this, tr("绘制"), tr("三角形！"));  
+		imgLabel->setShape(PaintWidget::Triangle);
+		break;
+	case 6:
+		//QMessageBox::information(this, tr("绘制"), tr("菱形！")); 
+		imgLabel->setShape(PaintWidget::Rhombus);
+		break;
+	case 7:
+		imgLabel->setShape(PaintWidget::Rect);
+		//QMessageBox::information(this, tr("绘制"), tr("长方形！")); 
+		break;
+	case 8:
+		//QMessageBox::information(this, tr("绘制"), tr("正方形！"));
+		imgLabel->setShape(PaintWidget::Square);
+		break;
+	case 9:
+		//QMessageBox::information(this, tr("绘制"), tr("六边形！")); 
+		imgLabel->setShape(PaintWidget::Hexagon);
+		break;
+	default:
+		break;
+	}
 }

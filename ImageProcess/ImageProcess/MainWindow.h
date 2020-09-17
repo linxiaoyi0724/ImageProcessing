@@ -4,6 +4,7 @@
 #include <QtGui>
 #include <QtWidgets>
 #include <qmainwindow.h>
+#include "header/PaintWidget.h"
 #include "ui_ImageProcess.h"
 
 class ImageProcess : public QMainWindow
@@ -31,7 +32,14 @@ private:
 	QDockWidget* dock_Output;
 
 	QString currentPath;
-	QLabel *imgLabel;
+	//QLabel *imgLabel;
+	PaintWidget *imgLabel;
+	
+
+	int drawType;
+	QButtonGroup *toolButtonGroup;
+	void ToolWin();
+
 	void InitImage();
 	void Menu_File();
 	
@@ -45,4 +53,6 @@ private slots:
 	void showWin();
 	void FullSize();
 	void AutoSize();
+
+	void toolButtonClicked(int id);
 };

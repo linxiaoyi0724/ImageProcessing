@@ -34,6 +34,9 @@ private:
 	QString currentPath;
 	//QLabel *imgLabel;
 	PaintWidget *imgLabel;
+
+	QPushButton *colorBtn;
+	QFrame *colorFram;
 	
 
 	int drawType;
@@ -55,4 +58,6 @@ private slots:
 	void AutoSize();
 
 	void toolButtonClicked(int id);
+
+	void setColor();
 };

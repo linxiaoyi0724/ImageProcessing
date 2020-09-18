@@ -130,6 +130,18 @@ void ImageProcess::Menu_File()
 	QPushButton *button_about = new QPushButton(tr("¹ØÓÚ"));
 	connect(button_about, SIGNAL(clicked()), this, SLOT(showWin()));
 	ui.mainToolBar->addWidget(button_about);
+
+	colorBtn = new QPushButton(tr("»­±ÊÑÕÉ«"));
+	connect(colorBtn, SIGNAL(clicked()), this, SLOT(setColor()));
+
+
+	colorFram = new QFrame(ui.mainToolBar);
+	colorFram->setFrameShape(QFrame::Box);
+	colorFram->setPalette(QPalette(Qt::black));
+	colorFram->setAutoFillBackground(true);
+	colorFram->setFixedSize(25, 25);
+	ui.mainToolBar->addWidget(colorBtn);
+	
 }
 
 void ImageProcess::InitImage()
@@ -570,5 +582,14 @@ void ImageProcess::toolButtonClicked(int id)
 		break;
 	default:
 		break;
+	}
+}
+
+void ImageProcess::setColor()
+{
+	QColor c = QColorDialog::getColor(Qt::blue);
+	if (c.isValid())
+	{
+		colorFram->setPalette(QPalette(c));
 	}
 }

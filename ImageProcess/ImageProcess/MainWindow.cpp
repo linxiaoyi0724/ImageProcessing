@@ -77,6 +77,7 @@ ImageProcess::~ImageProcess()
 
 void ImageProcess::Menu_File()
 {
+	
 	QMenu *file = menuBar()->addMenu(tr("文件"));
 
 	QAction *act_file_new = new QAction(QIcon("../Imgae/icon/ImageProcess.png"), tr("新建"), this);
@@ -121,7 +122,7 @@ void ImageProcess::Menu_File()
 
 	QPushButton *button_full = new QPushButton(tr("铺满窗口"));
 	QPushButton *button_auto = new QPushButton(tr("自适应窗口"));
-	button_full->setStyleSheet("background-color:blue;");
+	//button_full->setStyleSheet("background-color:blue;");
 
 	connect(button_full, SIGNAL(clicked()), this, SLOT(FullSize()));
 	connect(button_auto, SIGNAL(clicked()), this, SLOT(AutoSize()));
@@ -137,11 +138,11 @@ void ImageProcess::Menu_File()
 	connect(colorBtn, SIGNAL(clicked()), this, SLOT(setColor()));
 
 
-	colorFram = new QFrame(ui.mainToolBar);
-	colorFram->setFrameShape(QFrame::Box);
-	colorFram->setPalette(QPalette(Qt::black));
-	colorFram->setAutoFillBackground(true);
-	colorFram->setFixedSize(25, 25);
+	//colorFram = new QFrame(ui.mainToolBar);
+	//colorFram->setFrameShape(QFrame::Box);
+	//colorFram->setPalette(QPalette(Qt::black));
+	//colorFram->setAutoFillBackground(true);
+	//colorFram->setFixedSize(25, 25);
 	ui.mainToolBar->addWidget(colorBtn);
 	
 }
@@ -348,7 +349,7 @@ void ImageProcess::showWin()
 	label_about->setText(tr("图像处理软件自编1.0"));
 
 	QLabel *label_right = new QLabel(helpWin);
-	label_right->setText(tr("Copyright(C) 2020 上海 51World"));
+	label_right->setText(tr("Copyright(C) 2020 上海 xiaoyi"));
 
 	QLabel *label_author = new QLabel(helpWin);
 	label_author->setText(tr("作者：小轶 https://blog.csdn.net/Lin_xiaoyi/article/details/78214874"));

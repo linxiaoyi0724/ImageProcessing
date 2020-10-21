@@ -1,4 +1,5 @@
 <RCC>
-    <qresource prefix="ImageProcess">
+    <qresource prefix="/ImageProcess">
+        <file>Resources/ImageProcessIcon.ico</file>
     </qresource>
 </RCC>

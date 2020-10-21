@@ -6,7 +6,9 @@
 #include <qmainwindow.h>
 #include "header/PaintWidget.h"
 #include "ui_ImageProcess.h"
-
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/opencv.hpp>
+using namespace cv;
 class ImageProcess : public QMainWindow
 {
 	Q_OBJECT
@@ -14,6 +16,10 @@ class ImageProcess : public QMainWindow
 public:
 	ImageProcess(QWidget *parent = Q_NULLPTR);
 	~ImageProcess();
+
+
+	int isGray = 0;
+	Mat srcImg, grayImg;
 
 
 private:
@@ -32,8 +38,8 @@ private:
 	QDockWidget* dock_Output;
 
 	QString currentPath;
-	//QLabel *imgLabel;
-	PaintWidget *imgLabel;
+	QLabel *imgLabel;
+	//PaintWidget *imgLabel;
 
 	QPushButton *colorBtn;
 	QFrame *colorFram;

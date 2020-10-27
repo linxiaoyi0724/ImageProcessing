@@ -192,13 +192,13 @@ void ImageProcess::InitImage()
 	dock_Geom->raise();
 
 
-	imgLabel = new QLabel(dock_Image);
+	imgLabel = new PaintWidget(dock_Image);
 	imgLabel->setScaledContents(true);
 
 	QImage image = QImage(500, 500, QImage::Format_RGB32);
 	image.fill(qRgb(255, 255, 255));
 	imgLabel->setPixmap(QPixmap::fromImage(image));
-	//imgLabel->setImage(image);
+	imgLabel->setImage(image);
 	imgLabel->resize(image.width(), image.height());
 
 
@@ -460,7 +460,7 @@ void ImageProcess::File_open()
 {
 	QString path = QFileDialog::getOpenFileName(this, tr("选择图像"), ".", tr("Images(*.jpg *.png *.bmp)"));
 
-	/*
+	
 	//Old read image
 	if (!path.isEmpty())
 	{
@@ -475,37 +475,37 @@ void ImageProcess::File_open()
 		imgLabel->resize(img->width(), img->height());
 		currentPath = path;
 	}
-	*/
+	
 
 
 	//New read Image
-	if (!path.isEmpty())
-	{
-		srcImg = imread(path.toStdString());
-		if (srcImg.empty())
-		{
-			QMessageBox::information(this, tr("错误"), tr("打开图像失败"));
-			return;
-		}
+	//if (!path.isEmpty())
+	//{
+	//	srcImg = imread(path.toStdString());
+	//	if (srcImg.empty())
+	//	{
+	//		QMessageBox::information(this, tr("错误"), tr("打开图像失败"));
+	//		return;
+	//	}
 
-		cvtColor(srcImg, grayImg, cv::COLOR_BGR2GRAY);
+	//	cvtColor(srcImg, grayImg, cv::COLOR_BGR2GRAY);
 
-		Mat temp;
-		QImage Qtemp;
-		if (!isGray)
-		{
-			cvtColor(srcImg, temp, cv::COLOR_BGR2RGB);
-			Qtemp = QImage((const unsigned char*)(temp.data), temp.cols, temp.rows, temp.step, QImage::Format_RGB888);
-		}
-		else
-		{
-			cvtColor(grayImg, temp, cv::COLOR_GRAY2RGB);
-			Qtemp = QImage((const unsigned char*)(temp.data), temp.cols, temp.rows, temp.step, QImage::Format_RGB888);
-		}
-		imgLabel->setPixmap(QPixmap::fromImage(Qtemp));
-		imgLabel->resize(Qtemp.size());
-		currentPath = path;
-	}
+	//	Mat temp;
+	//	QImage Qtemp;
+	//	if (!isGray)
+	//	{
+	//		cvtColor(srcImg, temp, cv::COLOR_BGR2RGB);
+	//		Qtemp = QImage((const unsigned char*)(temp.data), temp.cols, temp.rows, temp.step, QImage::Format_RGB888);
+	//	}
+	//	else
+	//	{
+	//		cvtColor(grayImg, temp, cv::COLOR_GRAY2RGB);
+	//		Qtemp = QImage((const unsigned char*)(temp.data), temp.cols, temp.rows, temp.step, QImage::Format_RGB888);
+	//	}
+	//	imgLabel->setPixmap(QPixmap::fromImage(Qtemp));
+	//	imgLabel->resize(Qtemp.size());
+	//	currentPath = path;
+	//}
 }
 
 void ImageProcess::File_save()
@@ -578,44 +578,44 @@ void ImageProcess::toolButtonClicked(int id)
 	{
 	case 0:
 		//QMessageBox::information(this, tr("绘制"), tr("退出绘制模式"));
-		//imgLabel->setShape(PaintWidget::Null);
+		imgLabel->setShape(PaintWidget::Null);
 		break;
 	
 	case 1:
 		//QMessageBox::information(this, tr("绘制"), tr("钢笔"));
-		//imgLabel->setShape(PaintWidget::Pen);
+		imgLabel->setShape(PaintWidget::Pen);
 		break;
 	case 2:
 		//QMessageBox::information(this, tr("绘制"), tr("线条"));
-		//imgLabel->setShape(PaintWidget::Line);
+		imgLabel->setShape(PaintWidget::Line);
 		break;
 	case 3:
 		//QMessageBox::information(this, tr("绘制"), tr("椭圆形！")); 
-		//imgLabel->setShape(PaintWidget::Ellipse);
+		imgLabel->setShape(PaintWidget::Ellipse);
 		break;
 	case 4:
 		//QMessageBox::information(this, tr("绘制"), tr("圆形！")); 
-		//imgLabel->setShape(PaintWidget::Circle);
+		imgLabel->setShape(PaintWidget::Circle);
 		break;
 	case 5:
 		//QMessageBox::information(this, tr("绘制"), tr("三角形！"));  
-		//imgLabel->setShape(PaintWidget::Triangle);
+		imgLabel->setShape(PaintWidget::Triangle);
 		break;
 	case 6:
 		//QMessageBox::information(this, tr("绘制"), tr("菱形！")); 
-		//imgLabel->setShape(PaintWidget::Rhombus);
+		imgLabel->setShape(PaintWidget::Rhombus);
 		break;
 	case 7:
 		//imgLabel->setShape(PaintWidget::Rect);
-		//QMessageBox::information(this, tr("绘制"), tr("长方形！")); 
+		QMessageBox::information(this, tr("绘制"), tr("长方形！")); 
 		break;
 	case 8:
 		//QMessageBox::information(this, tr("绘制"), tr("正方形！"));
-		//imgLabel->setShape(PaintWidget::Square);
+		imgLabel->setShape(PaintWidget::Square);
 		break;
 	case 9:
 		//QMessageBox::information(this, tr("绘制"), tr("六边形！")); 
-		//imgLabel->setShape(PaintWidget::Hexagon);
+		imgLabel->setShape(PaintWidget::Hexagon);
 		break;
 	default:
 		break;
